@@ -11,5 +11,9 @@ class RoleRepository extends BaseRepository
     {
         $this->model = new Role();
     }
-   
+    
+    public function get_data_with_permissions()
+    {
+        return $this->model->with(['permissions','users'])->get();
+    }
 }

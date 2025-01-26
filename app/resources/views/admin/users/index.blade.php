@@ -97,7 +97,7 @@
                     <option value="">Select Role</option>
                 </select>
             </div>
-            <div class="col-md-4 user_plan">
+            {{-- <div class="col-md-4 user_plan">
                <select id="UserPlan" class="form-select text-capitalize">
                   <option value="">Select Plan</option>
                   <option value="Basic">Basic</option>
@@ -113,34 +113,37 @@
                   <option value="Active" class="text-capitalize">Active</option>
                   <option value="Inactive" class="text-capitalize">Inactive</option>
                </select>
-            </div>
+            </div> --}}
          </div>
       </div>
       <div class="card-datatable">
          <div class="">
             <div class="row mx-3 my-4 justify-content-between">
                <div class="d-md-flex align-items-center col-md-auto ms-auto d-flex gap-md-4 justify-content-md-between justify-content-center gap-4 flex-wrap mt-0">
-                    <div class="">
-                        <input type="search" class="form-control" id="search" placeholder="Search User">
-                    </div>
-                    <div class="dt-buttons btn-group flex-wrap d-flex gap-4 mb-md-0 mb-6">
-                        <div class="btn-group">
-                            <button class="btn buttons-collection btn-label-secondary dropdown-toggle" type="button" >
-                                <span>
-                                    <span class="d-flex align-items-center gap-2">
-                                        <i class="icon-base bx bx-export icon-sm"></i> 
-                                        <span class="d-none d-sm-inline-block">Export</span>
-                                    </span>
-                                </span>
-                            </button>
-                        </div>
-                        <button class="btn add-new btn-primary" type="button">
-                            <span>
-                                <i class="icon-base bx bx-plus icon-sm me-0 me-sm-2"></i>
-                                <span class="d-none d-sm-inline-block">Add New User</span>
-                            </span>
-                        </button> 
-                    </div>
+                     <div class="">
+                           <input type="search" class="form-control" id="search" placeholder="Search User">
+                     </div>
+                     <div class="dt-buttons btn-group flex-wrap d-flex gap-4 mb-md-0 mb-6">
+                           <div class="btn-group">
+                              <button class="btn buttons-collection btn-label-secondary dropdown-toggle" type="button" >
+                                 <span>
+                                       <span class="d-flex align-items-center gap-2">
+                                          <i class="icon-base bx bx-export icon-sm"></i> 
+                                          <span class="d-none d-sm-inline-block">Export</span>
+                                       </span>
+                                 </span>
+                              </button>
+                           </div>
+                           @can('create')
+                           <button class="btn add-new btn-primary" type="button">
+                              <span>
+                                 <i class="icon-base bx bx-plus icon-sm me-0 me-sm-2"></i>
+                                 <span class="d-none d-sm-inline-block">Add New User</span>
+                              </span>
+                           </button> 
+                           @endcan
+
+                     </div>
                </div>
             </div>
             <div class="justify-content-between">
@@ -163,9 +166,10 @@
                   </table>
                </div>
             </div>
+
             <div class="row mx-3 justify-content-between">
                 <div class="d-md-flex justify-content-between align-items-center col-md-auto me-auto mt-0">
-                    <div class="">Showing 1 to 10 of 50 entries</div>
+                    <div id="showing"></div>
                 </div>
                 <div class="d-md-flex align-items-center col-md-auto ms-auto d-flex gap-md-4 justify-content-md-between justify-content-center gap-4 flex-wrap mt-3">
                     <div class="">
@@ -182,5 +186,5 @@
 @endsection
 
 @section('script')
-<script src="{{ asset('admin/ajax/user.js') }}"></script>
+<script src="{{ asset('admin/ajax/user.js') }}?v={{ time() }}"></script>
 @endsection

@@ -2,7 +2,9 @@
 
 namespace Database\Seeders;
 
+use App\Models\User;
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Facades\DB;
 use Spatie\Permission\Models\Role;
 use Spatie\Permission\Models\Permission;
 
@@ -10,10 +12,17 @@ class RolePermissionUserSeeder extends Seeder
 {
     public function run()
     {
+        DB::statement('SET FOREIGN_KEY_CHECKS=0;');
+        Permission::truncate();
+        Role::truncate();
+        User::truncate();
+
         $permissions = [
             'create',
             'edit',
             'delete',
+            'view',
+            'view_detail'
         ];
 
         foreach ($permissions as $permission) {
@@ -35,15 +44,15 @@ class RolePermissionUserSeeder extends Seeder
             }
 
             if ($roleName === 'ADMIN') {
-                $role->syncPermissions(['create', 'edit', 'delete']);
+                $role->syncPermissions(['create', 'edit', 'delete','view', 'view_detail']);
             }
 
             if ($roleName === 'MANAGER') {
-                $role->syncPermissions(['create', 'edit']);
+                $role->syncPermissions(['view', 'view_detail']);
             }
 
             if ($roleName === 'USER') {
-                $role->syncPermissions(['create']);
+                $role->syncPermissions([]);
             }
         }
 
@@ -51,7 +60,7 @@ class RolePermissionUserSeeder extends Seeder
             'email' => 'supperadmin@example.com',
         ], [
             'name' => 'Supper Admin',
-            'password' => bcrypt('password'),
+            'password' => bcrypt('123456'),
         ]);
         $user->assignRole('SUPPER ADMIN');
 
@@ -59,7 +68,7 @@ class RolePermissionUserSeeder extends Seeder
             'email' => 'admin@example.com',
         ], [
             'name' => 'Admin',
-            'password' => bcrypt('password'),
+            'password' => bcrypt('123456'),
         ]);
         $user->assignRole('ADMIN');
 
@@ -67,7 +76,7 @@ class RolePermissionUserSeeder extends Seeder
             'email' => 'manager@example.com',
         ], [
             'name' => 'Manager',
-            'password' => bcrypt('password'),
+            'password' => bcrypt('123456'),
         ]);
         $user->assignRole('MANAGER');
 
@@ -75,7 +84,7 @@ class RolePermissionUserSeeder extends Seeder
             'email' => 'user@example.com',
         ], [
             'name' => 'User',
-            'password' => bcrypt('password'),
+            'password' => bcrypt('123456'),
         ]);
         $user->assignRole('USER');
 

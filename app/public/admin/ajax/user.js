@@ -20,6 +20,11 @@ function loadData(page = 1, search = '', role = '') {
         },
         success: function(response) {
 
+            let totalEntries = response.users.total;
+            let start = (response.users.current_page - 1) * response.users.per_page + 1;
+            let end = start + response.users.data.length - 1;
+            $('#showing').html(`Showing ${start} to ${end} of ${totalEntries} entries`);
+
             if ($('#UserRole option').length === 1) {
                 let roleOptions = response.roles.map(role => `<option value="${role.name}">${role.name}</option>`);
                 $('#UserRole').append(roleOptions.join(''));
@@ -27,15 +32,51 @@ function loadData(page = 1, search = '', role = '') {
 
             let html = '';
             response.users.data.forEach(function(user) {
+                let roleIcon = '';
+                let roleName = user.roles[0].name;
+
+                switch(roleName) {
+                    case 'SUPPER ADMIN':
+                        roleIcon = '<i class="icon-base bx bx-crown text-primary me-2"></i>';
+                        break;
+                    case 'ADMIN':
+                        roleIcon = '<i class="icon-base bx bx-desktop text-danger me-2"></i>';
+                        break;
+                    case 'USER':
+                        roleIcon = '<i class="icon-base bx bx-user text-success me-2"></i>';
+                        break;
+                    case 'MANAGER':
+                        roleIcon = '<i class="icon-base bx bx-edit text-warning me-2"></i>';
+                        break;
+                    default:
+                        roleIcon = '';
+                        break;
+                }
+
                 html += `
                     <tr>
                         <td><input type="checkbox" class="form-check-input" data-id="${user.id}"></td>
                         <td>${user.name}</td>
                         <td>${user.email}</td>
-                        <td>${user.roles[0].name}</td>
                         <td>
-                            <a href="/user/edit/${user.id}" class="btn btn-primary btn-sm">Edit</a>
-                            <button class="btn btn-danger btn-sm delete-btn" data-id="${user.id}">Delete</button>
+                            ${roleIcon} ${roleName}
+                        </td>
+                        <td>
+                            <div class="d-flex align-items-center">
+                                <a href="javascript:;" class="btn btn-icon delete-record">
+                                <i class="icon-base bx bx-trash icon-md"></i>
+                                </a>
+                                <a href="app-user-view-account.html" class="btn btn-icon">
+                                <i class="icon-base bx bx-show icon-md"></i>
+                                </a>
+                                <a href="javascript:;" class="btn btn-icon dropdown-toggle hide-arrow" data-bs-toggle="dropdown">
+                                <i class="icon-base bx bx-dots-vertical-rounded icon-md"></i>
+                                </a>
+                                <div class="dropdown-menu dropdown-menu-end m-0">
+                                <a href="javascript:;" class="dropdown-item">Edit</a>
+                                <a href="javascript:;" class="dropdown-item">Suspend</a>
+                                </div>
+                            </div>
                         </td>
                     </tr>
                 `;

@@ -3,43 +3,44 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Repositories\PermissionRepository;
 use App\Repositories\RoleRepository;
-use App\Repositories\UserRepository;
 use Illuminate\Http\Request;
 
-class UserControlelr extends Controller
+class RoleController extends Controller
 {
-    protected $user_repository;
+
     protected $role_repository;
+    protected $permission_repository;
 
     public function __construct(
-        UserRepository $user_repository,
         RoleRepository $role_repository,
+        PermissionRepository $permission_repository,
     )
     {
-        $this->user_repository = $user_repository;
         $this->role_repository = $role_repository;
+        $this->permission_repository = $permission_repository;
     }
     /**
      * Display a listing of the resource.
      */
     public function index()
     {
-        return view('admin.users.index',[
-            'total_user' => $this->user_repository->count([]),
+        $roles = $this->role_repository->get_data_with_permissions();
+        return view('admin.roles.index',[
+            'roles' => $roles,
         ]);
     }
 
-    public function listUser(Request $request)
+    public function get_list_data()
     {
-        $user = $this->user_repository->get_data_paginate([],$request->get('search', ''), $role = $request->get('role', ''));
-        $roles = $this->role_repository->get_all();
+        $roles = $this->role_repository->get_data_with_permissions();
+        $permissions = $this->permission_repository->get_all();
         return response()->json([
-            'users' => $user,
             'roles' => $roles,
-        ], 200);
+            'permissions' => $permissions,
+        ]);
     }
-
     /**
      * Show the form for creating a new resource.
      */
