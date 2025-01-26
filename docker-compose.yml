@@ -1,0 +1,59 @@
+services:
+  php:
+    build:
+      context: ./docker/php
+    container_name: laravell-php
+    volumes:
+      - ./app:/var/www/html
+    networks:
+      - laravell
+    environment:
+      - TZ=Asia/Ho_Chi_Minh
+
+  nginx:
+    image: nginx:latest
+    container_name: laravell-nginx
+    volumes:
+      - ./app:/var/www/html
+      - ./docker/nginx/default.conf:/etc/nginx/conf.d/default.conf
+
+    ports:
+      - "8084:80"
+    depends_on:
+      - php
+    networks:
+      - laravell
+
+  db:
+    image: mysql:8.0
+    container_name: laravell-db
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: laravell
+    ports:
+      - "3309:3306"
+    volumes:
+      - db_data:/var/lib/mysql
+      - ./docker/mysql/init.sql:/docker-entrypoint-initdb.d/init.sql
+    networks:
+      - laravell
+
+  phpmyadmin:
+    image: phpmyadmin/phpmyadmin
+    container_name: laravell-phpmyadmin
+    environment:
+      - PMA_HOST=db
+      - MYSQL_ROOT_PASSWORD=root
+    ports:
+      - "8085:80"
+    networks:
+      - laravell
+    depends_on:
+      - db
+  
+networks:
+  laravell:
+    driver: bridge
+volumes:
+  db_data:
