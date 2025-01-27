@@ -7,6 +7,7 @@
   data-style="light">
   <head>
     @include('admin.common.head')
+    @yield('style')
   </head>
 
   <body>

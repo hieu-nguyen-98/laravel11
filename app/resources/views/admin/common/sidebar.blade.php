@@ -76,23 +76,31 @@
         </li>
       </ul>
     </li>
-
+    @if(Auth::user()->hasRole('SUPPER ADMIN') || Auth::user()->hasRole('ADMIN'))
     <li class="menu-item {{ Request::is('admin/roles*') ? 'active open' : '' }}">
       <a href="javascript:void(0);" class="menu-link menu-toggle">
         <i class="menu-icon icon-base bx bx-check-shield"></i>
         <div class="text-truncate">Roles & Permissions</div>
-        <!-- <span class="badge rounded-pill bg-danger ms-auto">5</span> -->
       </a>
       <ul class="menu-sub">
         <li class="menu-item {{ Route::is('role.index') ? 'active' : '' }}">
           <a href="{{ route('role.index') }}" class="menu-link">
             <div class="text-truncate">Roles</div>
           </a>
-          <a href="" class="menu-link">
+        </li>
+        <li class="menu-item {{ Route::is('permission.index') ? 'active' : '' }}">
+          <a href="{{ route('permission.index') }}" class="menu-link">
             <div class="text-truncate">Permissions</div>
           </a>
         </li>
       </ul>
+    </li>
+    @endif
+    <li class="menu-item">
+      <a href="{{ route('calendar.index') }}" class="menu-link">
+        <i class="menu-icon icon-base bx bx-calendar"></i>
+        <div data-i18n="Calendar">Calendar</div>
+      </a>
     </li>
   </ul>
 </aside>

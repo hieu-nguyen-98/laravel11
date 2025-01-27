@@ -1,40 +1,35 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Admin;
 
-use App\Http\Requests\LoginRequest;
+use App\Http\Controllers\Controller;
+use App\Repositories\PermissionRepository;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
 
-class LoginController extends Controller
+class PermissionController extends Controller
 {
+    protected $permission_repository;
+
+    public function __construct(
+        PermissionRepository $permission_repository
+    )
+    {
+        $this->permission_repository = $permission_repository;
+    }
     /**
      * Display a listing of the resource.
      */
     public function index()
     {
-        return view('auth.login');
+        return view('admin.permissions.index');
     }
 
-
-    public function login(LoginRequest $request)
+    public function get_list_data(Request $request)
     {
-        $credentials = $request->only('email', 'password');
-
-        if (Auth::attempt($credentials)) {
-            return redirect(route('admin.dashboard'));
-        }
-
+        $permissions = $this->permission_repository->get_data_paginate([],$request->get('search', ''), $role = $request->get('role', ''));
         return response()->json([
-            'message' => 'Thông tin đăng nhập không chính xác.',
-        ], 401);
-
-    }
-
-    public function logout()
-    {
-        Auth::logout();
-        return redirect('/login');
+            'permissions' => $permissions,
+        ], 200);
     }
     /**
      * Show the form for creating a new resource.
