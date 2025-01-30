@@ -16,6 +16,9 @@ class CheckAdmin
      */
     public function handle($request, Closure $next)
     {
+        if(!Auth::check()) {
+            return redirect(route('login'));
+        }
         if (Auth::check() && Auth::user()->hasRole('USER')) {
             abort(403, 'Access denied');
         }

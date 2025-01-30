@@ -30,6 +30,7 @@ Route::middleware([CheckAdmin::class])->group(function () {
         Route::get('users', [UserControlelr::class, 'listUser']);
         Route::get('roles/get_list_data', [RoleController::class, 'get_list_data']);
         Route::get('permissions/get_list_data', [PermissionController::class, 'get_list_data']);
+        Route::get('calendars/get_list_data', [CalendarController::class, 'get_list_data']);
     });
     
 });

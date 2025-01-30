@@ -121,3 +121,124 @@
   text-align: center;
   margin-top: 1rem;
 }
+/* Calendar Full */
+.fc-calendar {
+    display: flex;
+    flex-direction: column;
+    margin: 20px;
+}
+
+.fc-toolbar-chunk {
+    margin-bottom: 10px;
+}
+
+.fc-button-group {
+    display: flex;
+}
+
+.view-button {
+    padding: 10px 15px;
+    border: none;
+    background-color: #007bff;
+    color: white;
+    cursor: pointer;
+    border-radius: 5px;
+    transition: background-color 0.3s;
+}
+
+.view-button:hover {
+    background-color: #0056b3;
+}
+
+.fc-month-view {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    gap: 10px;
+}
+
+.fc-week-view {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    gap: 10px;
+}
+
+.fc-day {
+    border: 1px solid #ccc;
+    padding: 10px !important;
+    border-radius: 5px;
+    text-align: center;
+}
+
+.fc-day h4 {
+    margin: 0;
+    font-size: 1.2em;
+}
+
+.fc-day.selected {
+    background-color: #007bff;
+    color: white;
+}
+
+.fc-scrollgrid {
+  width: 100%;
+}
+
+.fc-week, .fc-time-slot {
+  height: 120px; 
+  width: 120px;
+  border: 1px solid #ccc; 
+  text-align: center;
+  vertical-align: middle; 
+}
+
+.form-check-input:checked[data-value="all"] {
+  background-color: var(--bs-secondary); 
+  border-color: var(--bs-secondary);
+}
+.form-check-input:checked[data-value="0"] {
+  background-color: #f1c40f; 
+  border-color: #f39c12;
+}
+
+.form-check-input:checked[data-value="1"] {
+  background-color: #2ecc71; 
+  border-color: #27ae60;
+}
+
+.form-check-input:checked[data-value="2"] {
+  background-color: #3498db; 
+  border-color: #2980b9;
+}
+
+.form-check-input:checked[data-value="3"] {
+  background-color: #e74c3c; 
+  border-color: #c0392b;
+}
+.fc-list-day{
+  background: var(--bs-body-bg);
+}
+.bg-label-warning {
+  --event-color: yellow !important;
+}
+
+.bg-label-info {
+  --event-color: lightblue;
+}
+
+.bg-label-danger {
+  --event-color: red;
+}
+
+.bg-label-primary {
+  --event-color: blue;
+}
+.text-list{
+  margin-left: 1rem;
+}
+table {
+  width: 100%;
+  table-layout: fixed; 
+}
+.fc-list-event-time { min-width: 10%; }
+.fc-list-event-graphic { min-width: 5%; }
+.fc-list-event-title { min-width: 85%; }
