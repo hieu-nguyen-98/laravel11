@@ -3,40 +3,32 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
-use App\Repositories\RoleRepository;
-use App\Repositories\UserRepository;
+use App\Repositories\CategoryRepository;
 use Illuminate\Http\Request;
 
-class UserControlelr extends Controller
+class CategoryController extends Controller
 {
-    protected $user_repository;
-    protected $role_repository;
+    protected $category_repository;
 
     public function __construct(
-        UserRepository $user_repository,
-        RoleRepository $role_repository,
+        CategoryRepository $category_repository
     )
     {
-        $this->user_repository = $user_repository;
-        $this->role_repository = $role_repository;
+        $this->category_repository = $category_repository;
     }
     /**
      * Display a listing of the resource.
      */
     public function index()
     {
-        return view('admin.users.index',[
-            'total_user' => $this->user_repository->count([]),
-        ]);
+        return view('admin.categories.index');
     }
 
-    public function listUser(Request $request)
+    public function get_list_data(Request $request)
     {
-        $user = $this->user_repository->get_data_paginate([],$request->get('search', ''), $role = $request->get('role', ''));
-        $roles = $this->role_repository->get_all();
+        $categories = $this->category_repository->get_data_paginate(['parent.parent'],$request->get('search', ''));
         return response()->json([
-            'users' => $user,
-            'roles' => $roles,
+            'categories' => $categories,
         ], 200);
     }
 
@@ -61,7 +53,7 @@ class UserControlelr extends Controller
      */
     public function show(string $id)
     {
-        return view('admin.users.show');
+        //
     }
 
     /**

@@ -30,8 +30,9 @@
                data-size="large"
                data-show-count="true"
                aria-label="Star themeselection/sneat-html-admin-template-free on GitHub"
-               >Star</a
-               >
+            >
+               Star
+            </a>
          </li>
          <!-- User -->
          <li class="nav-item navbar-dropdown dropdown-user dropdown">
@@ -63,7 +64,7 @@
                   <div class="dropdown-divider my-1"></div>
                </li>
                <li>
-                  <a class="dropdown-item" href="#">
+                  <a class="dropdown-item" href="{{ route('user.show', Auth::user()->id) }}">
                   <i class="bx bx-user bx-md me-3"></i><span>My Profile</span>
                   </a>
                </li>

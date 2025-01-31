@@ -96,6 +96,21 @@
       </ul>
     </li>
     @endif
+
+    <li class="menu-item {{ Request::is('admin/categories*') ? 'active open' : '' }}">
+      <a href="javascript:void(0);" class="menu-link menu-toggle">
+        <i class="menu-icon icon-base bx bx-detail"></i>
+        <div class="text-truncate">Categories</div>
+      </a>
+      <ul class="menu-sub">
+        <li class="menu-item {{ Route::is('category.index') ? 'active' : '' }}">
+          <a href="{{ route('category.index') }}" class="menu-link">
+            <div class="text-truncate">List Categories</div>
+          </a>
+        </li>
+      </ul>
+    </li>
+
     <li class="menu-item">
       <a href="{{ route('calendar.index') }}" class="menu-link">
         <i class="menu-icon icon-base bx bx-calendar"></i>
