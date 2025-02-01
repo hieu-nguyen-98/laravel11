@@ -1,5 +1,10 @@
 $(document).ready(function() {
     loadData();
+
+    $('#search').on('change keyup', function () {
+        let search = $('#search').val();
+        loadData(1, search);
+    });
 });
 
 function loadData(page = 1, search = '') {
@@ -11,7 +16,6 @@ function loadData(page = 1, search = '') {
             search: search,
         },
         success: function(response) {
-            console.table(response)
             let totalEntries = response.categories.total;
             let start = (response.categories.current_page - 1) * response.categories.per_page + 1;
             let end = start + response.categories.data.length - 1;
@@ -20,32 +24,38 @@ function loadData(page = 1, search = '') {
 
             let html = '';
             response.categories.data.forEach(function(category) {
+                let imageSrc = category.image 
+                    ? category.image 
+                    : "/admin/assets/img/No_image_available.svg.png";
+                let edit_url = `/admin/categories/edit/${category.id}`;                
                 html += `
                     <tr>
                         <td>
                             <input type="checkbox" class="form-check-input" data-id="${category.id}">
                         </td>
-                        <td>${category.image}</td>
-                        <td>${category.name}</td>
-                        <td>${category.full_name}</td>
                         <td>
-                            ${category.status}
+                            <img src="${imageSrc}" class="rounded-circle" width="60" height="60" alt=${category.name}>
+                        </td>
+                        <td>${category.name}</td>
+                        <td>${category.full_name}</td>  
+                        <td>
+                            ${category.status == 1 ? '<span class="badge bg-label-success me-1">Active</span>' : '<span class="badge bg-label-danger me-1">Inactive</span>'}
                         </td>
                         <td> ${category.description} </td>
                         <td>
                             <div class="d-flex align-items-center">
-                                <a href="javascript:;" class="btn btn-icon delete-record">
-                                <i class="icon-base bx bx-trash icon-md"></i>
-                                </a>
+                                <button class="btn btn-icon delete-record">
+                                    <i class="icon-base bx bx-trash icon-md"></i>
+                                </button>
                                 <a href="app-category-view-account.html" class="btn btn-icon">
                                 <i class="icon-base bx bx-show icon-md"></i>
                                 </a>
                                 <a href="javascript:;" class="btn btn-icon dropdown-toggle hide-arrow" data-bs-toggle="dropdown">
-                                <i class="icon-base bx bx-dots-vertical-rounded icon-md"></i>
+                                    <i class="icon-base bx bx-dots-vertical-rounded icon-md"></i>
                                 </a>
                                 <div class="dropdown-menu dropdown-menu-end m-0">
-                                <a href="javascript:;" class="dropdown-item">Edit</a>
-                                <a href="javascript:;" class="dropdown-item">Suspend</a>
+                                    <a href="${edit_url}" class="dropdown-item">Edit</a>
+                                    <a href="javascript:;" class="dropdown-item">Suspend</a>
                                 </div>
                             </div>
                         </td>
@@ -53,7 +63,6 @@ function loadData(page = 1, search = '') {
                 `;
             });
             $('#data-table tbody').html(html);  
-
             let pagination = ``;
 
             response.categories.links.forEach(function(link) {
@@ -88,7 +97,40 @@ function loadData(page = 1, search = '') {
                 
                 loadData(page, search);
             });
+            $('.delete-record').click(deleteCategory);
 
+        }
+    });
+}
+
+function deleteCategory(e) {
+    e.preventDefault();
+    let categoryId = $(this).closest("tr").find("input[type='checkbox']").data("id");
+    Swal.fire({
+        title: "Bạn có chắc chắn?",
+        text: "Hành động này sẽ xóa danh mục và không thể khôi phục!",
+        icon: "warning",
+        showCancelButton: true,
+        confirmButtonColor: "#d33",
+        cancelButtonColor: "#3085d6",
+        confirmButtonText: "Có, xóa ngay!",
+        cancelButtonText: "Hủy",
+    }).then((result) => {
+        if (result.isConfirmed) {
+            $.ajax({
+                url: `/ajax/categories/delete/${categoryId}`,
+                method: "DELETE",
+                data: {
+                    _token: $('meta[name="csrf-token"]').attr("content"),
+                },
+                success: function (response) {
+                    Swal.fire("Đã xóa!", "Danh mục đã được xóa thành công.", "success");
+                    loadData(); // Cập nhật lại danh sách sau khi xóa
+                },
+                error: function () {
+                    Swal.fire("Lỗi!", "Xóa danh mục thất bại. Vui lòng thử lại.", "error");
+                },
+            });
         }
     });
 }

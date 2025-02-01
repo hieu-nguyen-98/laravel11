@@ -32,3 +32,6 @@
 <!-- Helpers -->
 <script src="{{asset('admin/assets/vendor/js/helpers.js') }}?v={{ time() }}"></script>
 <script src="{{asset('admin/assets/js/config.js') }}?v={{ time() }}"></script>
+
+{{-- sweetaleart --}}
+<link href="https://cdn.jsdelivr.net/npm/@sweetalert2/theme-dark@4/dark.css" rel="stylesheet">

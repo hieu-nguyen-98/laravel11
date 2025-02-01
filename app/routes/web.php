@@ -19,8 +19,15 @@ Route::middleware([CheckAdmin::class])->group(function () {
         Route::get('dashboard', [DashboardController::class, 'index'])->name('admin.dashboard');
         Route::get('users', [UserControlelr::class, 'index'])->name('user.index');
         Route::get('users/show/{id}', [UserControlelr::class, 'show'])->name('user.show');
-
-        Route::get('categories', [CategoryController::class, 'index'])->name('category.index');
+        
+        Route::prefix('categories')->group(function () {
+            Route::get('', [CategoryController::class, 'index'])->name('category.index');
+            Route::get('create', [CategoryController::class, 'create'])->name('category.create');
+            Route::post('create', [CategoryController::class, 'store'])->name('category.store');
+            Route::get('edit/{id}', [CategoryController::class, 'edit'])->name('category.edit');
+            Route::post('update/{id}', [CategoryController::class, 'update'])->name('category.update');
+        });
+        
 
         Route::get('calendars', [CalendarController::class, 'index'])->name('calendar.index');
 
@@ -37,6 +44,7 @@ Route::middleware([CheckAdmin::class])->group(function () {
         Route::get('permissions/get_list_data', [PermissionController::class, 'get_list_data']);
         Route::get('calendars/get_list_data', [CalendarController::class, 'get_list_data']);
         Route::get('categories/get_list_data', [CategoryController::class, 'get_list_data']);
+        Route::delete('categories/delete/{id}', [CategoryController::class, 'destroy']);
     });
     
 });

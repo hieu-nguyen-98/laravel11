@@ -8,7 +8,7 @@
             <div class="row mx-3 my-4 justify-content-between">
                <div class="d-md-flex align-items-center col-md-auto ms-auto d-flex gap-md-4 justify-content-md-between justify-content-center gap-4 flex-wrap mt-0">
                      <div class="">
-                           <input type="search" class="form-control" id="search" placeholder="Search User">
+                           <input type="search" class="form-control" id="search" placeholder="Search name category">
                      </div>
                      <div class="dt-buttons btn-group flex-wrap d-flex gap-4 mb-md-0 mb-6">
                            <div class="btn-group">
@@ -21,12 +21,12 @@
                                  </span>
                               </button>
                            </div>
-                           <button class="btn add-new btn-primary" type="button">
+                           <a href="{{ route('category.create') }}" class="btn add-new btn-primary">
                               <span>
                                  <i class="icon-base bx bx-plus icon-sm me-0 me-sm-2"></i>
                                  <span class="d-none d-sm-inline-block">Add New Category</span>
                               </span>
-                           </button> 
+                           </a> 
                      </div>
                </div>
             </div>

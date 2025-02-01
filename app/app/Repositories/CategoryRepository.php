@@ -33,11 +33,36 @@ class CategoryRepository extends BaseRepository
 
     private function getFullCategoryName($category)
     {
+        if (!$category->parent) {
+            return '';
+        }
+    
         $names = [];
-        while ($category) {
+        $visited = []; // Mảng để tránh vòng lặp vô hạn
+    
+        while ($category && $category->parent) {
+            if (in_array($category->id, $visited)) {
+                break;
+            }
+            $visited[] = $category->id;
             array_unshift($names, $category->name);
             $category = $category->parent;
         }
+    
+        if ($category) {
+            array_unshift($names, $category->name); // Thêm parent vào chuỗi
+        }
+    
         return implode(' || ', $names);
+    }
+
+    public function get_data_with_relation($id)
+    {
+        return $this->model->with('children')->findOrFail($id);
+    }
+
+    public function delete_multi($ids)
+    {
+        return $this->model->whereIn('id', $ids)->delete();
     }
 }

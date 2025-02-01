@@ -17,3 +17,6 @@
 
 <!-- Page JS -->
 <script src="{{asset('admin/assets/js/dashboards-analytics.js') }}?v={{ time() }}"></script>
+{{-- sweetaleart --}}
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.js"></script>
+
