@@ -42,7 +42,7 @@
                             <th>Name</th>
                             <th>Parent</th>
                             <th>Status</th>
-                            <th>Description</th>
+                            <th>Total Products</th>
                             <th>Actions</th>
                         </tr>
                      </thead>

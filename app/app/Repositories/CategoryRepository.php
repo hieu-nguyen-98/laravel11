@@ -65,4 +65,9 @@ class CategoryRepository extends BaseRepository
     {
         return $this->model->whereIn('id', $ids)->delete();
     }
+
+    public function get_all_data_with_relation($relation)
+    {
+        return $this->model->with($relation)->where('status', $this->model::ACTIVE)->where('parrent_id', 0)->limit(8)->get();
+    }
 }

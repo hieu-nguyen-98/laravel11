@@ -42,7 +42,7 @@ function loadData(page = 1, search = '') {
                         <td>
                             ${category.status == 1 ? '<span class="badge bg-label-success me-1">Active</span>' : '<span class="badge bg-label-danger me-1">Inactive</span>'}
                         </td>
-                        <td> ${category.description} </td>
+                        <td> ${category.products.length} </td>
                         <td>
                             <div class="d-flex align-items-center">
                                 <button class="btn btn-icon delete-record">

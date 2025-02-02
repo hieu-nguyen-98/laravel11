@@ -28,7 +28,7 @@ class CategoryController extends Controller
 
     public function get_list_data(Request $request)
     {
-        $categories = $this->category_repository->get_data_paginate(['parent.parent'],$request->get('search', ''));
+        $categories = $this->category_repository->get_data_paginate(['parent.parent','products'],$request->get('search', ''));
         return response()->json([
             'categories' => $categories,
         ], 200);

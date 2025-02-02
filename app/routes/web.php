@@ -7,13 +7,14 @@ use App\Http\Controllers\Admin\PermissionController;
 use App\Http\Controllers\Admin\ProductController;
 use App\Http\Controllers\Admin\RoleController;
 use App\Http\Controllers\Admin\UserControlelr;
+use App\Http\Controllers\Client\HomeController;
 use App\Http\Controllers\LoginController;
 use App\Http\Middleware\CheckAdmin;
 use Illuminate\Support\Facades\Route;
 
-Route::get('/', function () {
-    return view('welcome');
-});
+// Route::get('/', function () {
+//     return view('welcome');
+// });
 
 Route::middleware([CheckAdmin::class])->group(function () {
     Route::prefix('admin')->group(function () {
@@ -36,6 +37,8 @@ Route::middleware([CheckAdmin::class])->group(function () {
             Route::post('create', [ProductController::class, 'store'])->name('product.store');
             Route::get('edit/{id}', [ProductController::class, 'edit'])->name('product.edit');
             Route::get('change_status/{id}', [ProductController::class, 'change_status']);
+            Route::post('update/{id}', [ProductController::class, 'update'])->name('product.update');
+
         });
 
         Route::get('calendars', [CalendarController::class, 'index'])->name('calendar.index');
@@ -66,3 +69,5 @@ Route::middleware([CheckAdmin::class])->group(function () {
 Route::get('login', [LoginController::class, 'index'])->name('login');
 Route::post('login', [LoginController::class, 'login'])->name('post.login');
 Route::post('/logout', [LoginController::class, 'logout'])->name('logout');
+
+Route::get('/', [HomeController::class, 'index'])->name('home');

@@ -116,7 +116,31 @@ class ProductController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        //
+        $this->product_repository->find($id);
+        DB::beginTransaction();
+        try {
+            $product = $this->product_repository->find($id);
+        
+            if (!$product) {
+                return redirect()->route('product.index')->with('error', 'Sản phẩm không tồn tại!');
+            }
+
+            if ($request->hasFile('image')) {
+                $imagePath = $request->file('image')->store('categories', 'public');
+                $request->merge(['image' => $imagePath]);
+            }
+
+            $this->product_repository->update($request->all(), $id);
+
+            DB::commit(); 
+
+            return redirect()->route('product.index')->with('success', 'Sản phẩm đã được cập nhập thành công!');
+
+        } catch (\Exception $e) {
+            DB::rollBack();
+
+            return redirect()->back()->with('error', 'Có lỗi xảy ra! Vui lòng thử lại.');
+        }
     }
 
     /**
