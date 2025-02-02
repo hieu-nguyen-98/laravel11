@@ -38,7 +38,7 @@ class CategoryRepository extends BaseRepository
         }
     
         $names = [];
-        $visited = []; // Mảng để tránh vòng lặp vô hạn
+        $visited = []; 
     
         while ($category && $category->parent) {
             if (in_array($category->id, $visited)) {
@@ -50,7 +50,7 @@ class CategoryRepository extends BaseRepository
         }
     
         if ($category) {
-            array_unshift($names, $category->name); // Thêm parent vào chuỗi
+            array_unshift($names, $category->name);
         }
     
         return implode(' || ', $names);

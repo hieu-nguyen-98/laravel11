@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Models\Category;
 use App\Repositories\CategoryRepository;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -155,5 +156,18 @@ class CategoryController extends Controller
                 'message' => 'Có lỗi xảy ra! Không thể xóa danh mục.'
             ], 500);
         }
+    }
+
+    public function change_status(Request $request, $id)
+    {
+        $category = $this->category_repository->find($id);
+        try{
+            $category->status = $request->status === Category::ACTIVE ? Category::INACTIVE : Category::ACTIVE;
+            $category->save();
+            return redirect()->route('category.index')->with('success', 'Thay đổi trạng thái thành công!');
+        }catch(\Exception $e){
+            return redirect()->back()->with('error', 'Có lỗi xảy ra! Vui lòng thử lại.');
+        }
+        
     }
 }

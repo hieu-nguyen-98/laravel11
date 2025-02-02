@@ -111,6 +111,20 @@
       </ul>
     </li>
 
+    <li class="menu-item {{ Request::is('admin/products*') ? 'active open' : '' }}">
+      <a href="javascript:void(0);" class="menu-link menu-toggle">
+        <i class="menu-icon icon-base bx bx-box"></i>
+        <div class="text-truncate">Products</div>
+      </a>
+      <ul class="menu-sub">
+        <li class="menu-item {{ Route::is('product.index') ? 'active' : '' }}">
+          <a href="{{ route('product.index') }}" class="menu-link">
+            <div class="text-truncate">List Products</div>
+          </a>
+        </li>
+      </ul>
+    </li>
+
     <li class="menu-item">
       <a href="{{ route('calendar.index') }}" class="menu-link">
         <i class="menu-icon icon-base bx bx-calendar"></i>

@@ -27,7 +27,7 @@ $(document).ready(function() {
             instance.setDate(currentDate); 
             $('.cur-year').val(currentYear);
             updateTitle(currentYear, 0);
-            renderCalendar(selectedMonth, selectedYear);
+            // renderCalendar(selectedMonth, selectedYear);
         },
         onChange: function(selectedDates, dateStr, instance) {
             currentDate = new Date(selectedDates[0]);
